@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ACE in Action</title>
+<style type="text/css" media="screen">
+    #editor { 
+        position: absolute;
+        top: 0%;
+        right: 0;
+        bottom: 50%;
+        left: 0;
+    }
+    #sheet{
+        position: absolute;
+        top: 50%;
+        right: 0;
+        bottom: 0%;
+        left: 0;
+    }
+</style>
+<script src="./alignArgs/implement/AlignArgs.js"></script>
+<script src="./alignArgs/implement/FuncCall.js"></script>
+<script src="./alignArgs/implement/ParseFunc.js"></script>
+
+<link rel="stylesheet" href="./css/css.css">
+</head>
+<body>
+
+<div id="editor">func1(1, t, T, 0xFFu, 0x03u);
+    func12(10, f, F, 0xFFu, 0x02u);
+    func123(100, TRUE, FALSE, 0xFFu, 0x00u);
+    func1234(1000, TRUE, FALSE, 0xFFu, 0x00u);
+    func12345(10000, t, </div>
+  
+
+
+
+<div id="sheet"> this is sheet
+
+</div>
+  
+
+<script src="https://pagecdn.io/lib/ace/1.4.12/ace.js" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/c_cpp");
+    editor.setShowPrintMargin(false);
+
+    document.getElementById("editor").addEventListener("keypress", myFunction);
+    document.getElementById("editor").addEventListener("paste", myFunction);
+
+    var timeout;
+
+    function myFunction(){
+
+        clearTimeout(timeout);
+        timeout = setTimeout(function(){ 
+        
+            var inputText = editor.getValue();
+            var outputText = AlignArgs.Do(inputText + "") + "";
+
+            currentCursorPosition = editor.getCursorPosition();
+
+            console.log(currentCursorPosition);
+            editor.setValue(outputText, 1);    
+            editor.moveCursorTo(currentCursorPosition.row, currentCursorPosition.column, true);
+
+
+        }, 300);
+        
+    }
+
+</script>
+</body>
+</html>
