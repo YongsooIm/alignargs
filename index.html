@@ -62,14 +62,6 @@ f, F -> FALSE">
     document.getElementById("rightAlignDecimal").addEventListener("change", debounce);
     document.getElementById("padType").addEventListener("change", debounce);
 
-    if(document.getElementById("replace").checked){
-      _replace = {
-        t: 'TRUE',
-        T: 'TRUE',
-        f: 'FALSE',
-        F: 'FALSE',
-      }
-    }
 
     var timeout;
 
@@ -82,6 +74,22 @@ f, F -> FALSE">
           var currentCursorPosition = editor.getCursorPosition();
 
           var inputText = editor.getValue();
+
+          var _replace;
+          
+          if(document.getElementById("replace").checked){
+            _replace = {
+              t: 'TRUE',
+              T: 'TRUE',
+              f: 'FALSE',
+              F: 'FALSE',
+            }
+          } else{
+            _replace = {
+
+            };
+          }
+
           var outputText = DoAlign(inputText + "", {
             'rightAlignDecimal': document.getElementById("rightAlignDecimal").checked, 
             'replace' : _replace, 
