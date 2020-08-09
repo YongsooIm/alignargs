@@ -17,18 +17,26 @@
     <ul>
       <li><a href="./index.html">Align arguments</a></li>
       <li>
+        <span title="0XabU -> 0xABu">
         <label for='formatHex' style="word-wrap:break-word" >Format Hex
-          <input type='checkbox' id='formatHex' checked/></label>
+          <input type='checkbox' id='formatHex' checked/></label></span>
       </li>
       <li>
         <label for='rightAlignDecimal' style="word-wrap:break-word" >Right align decimal arg
           <input type='checkbox' id='rightAlignDecimal'  checked/></label>
       </li>
+      <li>
+          <span title="t, T -> TRUE
+f, F -> FALSE">
+            <label for='replace' style="word-wrap:break-word" >Replace
+          <input type='checkbox' id='replace'  checked/></label>
+        </span>
+      </li>
       <li>      
         <label style="word-wrap:break-word">Pad type
         <select id="padType" name="padType">
           <option value="space">space</option>
-          <option value="tab">tab</option>
+          <option value="tab">tab(size  4)</option>
         </select>
         </label>  
       </li>
@@ -54,6 +62,15 @@
     document.getElementById("rightAlignDecimal").addEventListener("change", debounce);
     document.getElementById("padType").addEventListener("change", debounce);
 
+    if(document.getElementById("replace").checked){
+      _replace = {
+        t: 'TRUE',
+        T: 'TRUE',
+        f: 'FALSE',
+        F: 'FALSE',
+      }
+    }
+
     var timeout;
 
     function debounce(e) {
@@ -67,7 +84,7 @@
           var inputText = editor.getValue();
           var outputText = DoAlign(inputText + "", {
             'rightAlignDecimal': document.getElementById("rightAlignDecimal").checked, 
-            'replace' : [], 
+            'replace' : _replace, 
             'trimTrail': true, 
             'formatHex': document.getElementById("formatHex").checked,
             'padType': document.getElementById("padType").value
