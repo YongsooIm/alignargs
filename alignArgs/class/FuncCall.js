@@ -4,8 +4,6 @@ class FuncCall {
         this.indent = indent;
         this.funcName = funcName;
         this.args = args;
-        if (comment) {
-            this.comment = comment;
-        }
+        this.comment = comment;
     }
 }

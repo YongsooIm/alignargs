@@ -14,20 +14,20 @@ var STATE;
 function ParseFunc(line) {
     var indent = '';
     var funcName = '';
-    var args = [''];
+    var args = [];
     var comment = '';
-    var argIdx = 0;
+    var argIndex = -1;
     var curr;
     var state = STATE.INDENT;
     for (var i = 0; i < line.length; i++) {
         curr = line.charAt(i);
         switch (state) {
             case STATE.INDENT:
-                if (curr.match(/\s/)) {
+                if (curr.match(/\s/)) { // whitespace
                     indent += curr;
                 }
-                else if (curr.match(/[a-zA-Z_]/)) {
-                    funcName += curr;
+                else if (curr.match(/[a-zA-Z_]/)) { // first character of identifier (alphabet, underscore)
+                    funcName = curr;
                     state = STATE.FUNC_NAME;
                 }
                 else {
@@ -35,10 +35,10 @@ function ParseFunc(line) {
                 }
                 break;
             case STATE.FUNC_NAME:
-                if (curr.match(/[a-zA-Z_1-9]/)) {
+                if (curr.match(/[\w_]/)) { // alphanumeric, underscore
                     funcName += curr;
                 }
-                else if (curr.match(/\s/)) {
+                else if (curr.match(/\s/)) { // whitespace
                     state = STATE.FUNC_NAME_END;
                 }
                 else if (curr === '(') {
@@ -52,44 +52,34 @@ function ParseFunc(line) {
                 if (curr === '(') {
                     state = STATE.ARG_START;
                 }
-                else if (!curr.match(/\s/)) {
+                else if (curr.match(/\S/)) { // non-whitespace
                     state = STATE.FAIL;
                 }
-                break;
+                break; // ignore whitespace
             case STATE.ARG_START:
-                if (curr.match(/[a-zA-Z_0-9]/)) {
-                    args[argIdx] += curr;
+                if (curr.match(/\w/)) { // alphanumeric
+                    args[++argIndex] = curr;
                     state = STATE.ARG_MIDDLE;
                 }
                 else if (curr === ')') {
                     state = STATE.COMMENT_START;
                 }
-                else if (!curr.match(/\s/)) {
+                else if (curr.match(/\S/)) { // non-whitespace\
                     state = STATE.FAIL;
                 }
-                break;
+                break; // ignore whitespace
             case STATE.ARG_MIDDLE:
-                if (curr.match(/[a-zA-Z_0-9]/)) {
-                    args[argIdx] += curr;
+                if (curr.match(/[\w_]/)) { // alphanumeric, underscore
+                    args[argIndex] += curr;
                 }
                 else if (curr === ',') {
-                    if(args[argIdx] === 't' || args[argIdx] === 'T')
-                        args[argIdx] = 'TRUE';
-                    else if(args[argIdx] === 'f' || args[argIdx] === 'F'){
-                        args[argIdx] = 'FALSE';
-                    }
-                    args[++argIdx] = '';
                     state = STATE.ARG_START;
                 }
-                else if (curr.match(/\s/)) {
+                else if (curr.match(/\s/)) { // whitespace
+                    args[argIndex] += curr;
                     state = STATE.ARG_END;
                 }
                 else if (curr === ')') {
-                    if(args[argIdx] === 't' || args[argIdx] === 'T')
-                        args[argIdx] = 'TRUE';
-                    else if(args[argIdx] === 'f' || args[argIdx] === 'F'){
-                        args[argIdx] = 'FALSE';
-                    }
                     state = STATE.COMMENT_START;
                 }
                 else {
@@ -97,19 +87,16 @@ function ParseFunc(line) {
                 }
                 break;
             case STATE.ARG_END:
-                if(args[argIdx] === 't' || args[argIdx] === 'T')
-                    args[argIdx] = 'TRUE';
-                else if(args[argIdx] === 'f' || args[argIdx] === 'F'){
-                    args[argIdx] = 'FALSE';
-                }
                 if (curr === ',') {
-                    args[++argIdx] = '';
                     state = STATE.ARG_START;
                 }
                 else if (curr === ')') {
                     state = STATE.COMMENT_START;
                 }
-                else if (!curr.match(/\s/)) {
+                else if (curr.match(/\s/)) { // whitespace
+                    args[argIndex] += curr;
+                }
+                else {
                     state = STATE.FAIL;
                 }
                 break;
@@ -122,7 +109,7 @@ function ParseFunc(line) {
                         state = STATE.COMMENT;
                     }
                 }
-                else if (!curr.match(/\s/)) {
+                else if (curr.match(/\S/)) {
                     state = STATE.FAIL;
                 }
                 break;
@@ -138,13 +125,10 @@ function ParseFunc(line) {
             break;
         }
     }
-
-    return new FuncCall(indent, funcName, args, comment);
-
-    if (state === STATE.DONE) {
+    if (state === STATE.DONE && argIndex !== -1) {
         return new FuncCall(indent, funcName, args, comment);
     }
     else {
-        return new FuncCall('', '', [''], '');
+        return new FuncCall('', '', [], '');
     }
 }

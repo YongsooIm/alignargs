@@ -1,0 +1,93 @@
+textarea {
+    
+    width : 95%;
+    max-height: 40%;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    display: block;
+    resize: none;
+    white-space: pre;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+  
+  #editor { 
+    position: absolute;
+    top: 50px;
+    right: 0;
+    bottom: 0%;
+    left: 0;
+}
+
+#navbar{
+    position: absolute  ;
+    top: 0px;
+    width: 100%;
+    left: 0px;
+    bottom: 50px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  li {
+    float: left;
+    border-right:1px solid #bbb;
+  }
+  
+  li:last-child {
+    border-right: none;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  li a:hover:not(.active) {
+    background-color: #111;
+  }
+  
+  .active {
+    background-color: #4CAF50;
+  }
+
+  label:hover:not(.active) {
+    background-color: #111;
+  }
+  
+  .active {
+    background-color: #4CAF50;
+  }
+
+  li input {
+
+    width : 20px;
+  }
+  
+  label{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+  [type="checkbox"]
+{
+    vertical-align:middle;
+}
+
+.editor * {
+    font-family:Courier,Monaco,Menlo,"Ubuntu Mono",Consolas,source-code-pro,monospace;
+}
