@@ -57,7 +57,7 @@ function ParseFunc(line) {
                 }
                 break; // ignore whitespace
             case STATE.ARG_START:
-                if (curr.match(/\w/)) { // alphanumeric
+                if (curr.match(/[\w\&\*]/)) { // alphanumeric, ampersand, asterisk
                     args[++argIndex] = curr;
                     state = STATE.ARG_MIDDLE;
                 }
@@ -125,10 +125,18 @@ function ParseFunc(line) {
             break;
         }
     }
+
+    if (state === STATE.DONE || state === STATE.ARG_START || state === STATE.ARG_MIDDLE || state === STATE.ARG_END || state === STATE.COMMENT_START || state === STATE.COMMENT)  
+        return new FuncCall(indent, funcName, args, comment);
+    else {
+        return new FuncCall('', '', [], '');
+    }
+    /*
     if (state === STATE.DONE && argIndex !== -1) {
         return new FuncCall(indent, funcName, args, comment);
     }
     else {
         return new FuncCall('', '', [], '');
     }
+    */
 }

@@ -1,8 +1,8 @@
 function DoAlign(input, config) {
     var parsedLines = [];
     var maxArgLengthArr = [0];
-    var minIndent = ' '.repeat(100);
-    var maxFuncNameLength = 0;
+    var minIndent = ' '.repeat(16);
+    var maxFuncNameLength = 1;
     var outputLines = [];
     var findingRefComment = true;
     var lines = input.split(/\r?\n/);
@@ -103,7 +103,7 @@ function DoAlign(input, config) {
     });
     if (parsedRefComment.length !== 0) {
         outputLines[refCommentLineIndex] = minIndent + '/*' + ' '.repeat(maxFuncNameLength - 1) + parsedRefComment.map((arg, index) => arg.padEnd(maxArgLengthArr[index])).join(' , ')
-        .padEnd(minIndent.length + maxFuncNameLength + maxArgLengthArr.reduce((a, b) => a+b, 0), ' ') + '*/';
+        .padEnd(minIndent.length + maxFuncNameLength + maxArgLengthArr.reduce((a, b) => a+b, 0), ' ') + ' */';
     }
 
     return outputLines.join('\r\n');

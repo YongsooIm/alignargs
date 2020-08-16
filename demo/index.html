@@ -3,17 +3,17 @@
 
 <head>
   <title>Align arguments</title>
-  <script src="./alignArgs/implement/AlignArgs.js"></script>
-  <script src="./alignArgs/class/FuncCall.js"></script>
-  <script src="./alignArgs/implement/ParseFunc.js"></script>
-  <script src="./alignArgs/implement/ParseRefComment.js"></script>
+  <script src="../alignArgs/implement/AlignArgs.js"></script>
+  <script src="../alignArgs/class/FuncCall.js"></script>
+  <script src="../alignArgs/implement/ParseFunc.js"></script>
+  <script src="../alignArgs/implement/ParseRefComment.js"></script>
 
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body onload='editor.focus()'>
+<body onload="editor.focus();debounce();editor.gotoLine(100);editor.execCommand('gotolineend');">
 
-  <div id='navbar'>
+  <div id='navbar'  >
     <ul>
       <li><a>Align arguments</a>
 
@@ -37,15 +37,15 @@ f, F -> FALSE">
       </li>
 
       <li>
-          <label for='renderWhitespace' style="word-wrap:break-word">Render Whitespace
-            <input type='checkbox' id='renderWhitespace' /></label>
+        <label for='renderWhitespace' style="word-wrap:break-word">Render Whitespace
+          <input type='checkbox' id='renderWhitespace' /></label>
       </li>
 
       <li>
         <div class="container">
           <label style="word-wrap:break-word"">
             Padding: space
-          <input type="checkbox" name="padType" id="padType" class="toggle-button">
+          <input type = 'checkbox' name = 'padType' id = 'padType' class = 'toggle-button'>
             tab(size4)
           </label>
         </div>
@@ -55,7 +55,7 @@ f, F -> FALSE">
         <div class="container">
           <label style="word-wrap:break-word"">
             Split: horizontal
-          <input type="checkbox" name="splitView" id="splitView" class="toggle-button">
+          <input type = 'checkbox' name = 'splitView' id = 'splitView' class='toggle-button'>
             vertical
           </label>
         </div>
@@ -68,17 +68,31 @@ f, F -> FALSE">
         </span>
       </li>
 
-      <li style="float:right"><a href='https://github.com/yongsooim/alignargs/' target='_blank'>Github repo</a></li>
+      <li style="float:right"><a href='https://github.com/yongsooim/alignargs/' target='_blank'>Github repo</a>
+      </li>
     </ul>
   </div>
-  <div id="editor" onChange="debounce"></div>
-  <div id="editorOut"></div>
 
+  <div id='editorGroup'>
+
+    <div id="editor" onChange="debounce">// arg1, arg2, arg3, long_argument_name, long_argument_name, arg4
+func(F,1,0XABU,t,10000000000,S);
+func1(T,10,0xffu,f,1000000000,SO);
+func12(F,100,0X00u,t,100000000,SOM);
+func123(T,1000,0xabu,f,10000000,SOME);
+func1234(F,10000,0XcdU,t,1000000,SOMEV);
+func123(T,100000,0xefU,f,100000,SOMEVA);
+func12(F,1000000,0XABU,t,10000,SOMEVAL);
+func1(T,10000000,0xCDU,f,1000,SOMEVALU);
+func(F,100000000,0XEFU,t,100,SOMEVALUE);
+</div>
+
+    <div id="editorOut"></div>
+  </div>
 
 
   <script src="https://pagecdn.io/lib/ace/1.4.12/ace.js" charset="utf-8"></script>
   <script>
-
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/clouds");
     editor.session.setMode("ace/mode/c_cpp");
@@ -101,8 +115,14 @@ f, F -> FALSE">
     editor.setAutoScrollEditorIntoView(true);
     editorOut.setAutoScrollEditorIntoView(true);
 
-    editor.session.setOptions({ tabSize: 4, useSoftTabs: false });
-    editorOut.session.setOptions({ tabSize: 4, useSoftTabs: false });
+    editor.session.setOptions({
+      tabSize: 4,
+      useSoftTabs: false
+    });
+    editorOut.session.setOptions({
+      tabSize: 4,
+      useSoftTabs: false
+    });
 
 
     document.getElementById("editor").addEventListener("change", debounce);
@@ -140,7 +160,7 @@ f, F -> FALSE">
           F: 'FALSE',
         }
       } else {
-        _replace = { };
+        _replace = {};
       }
 
       var outputText = DoAlign(inputText + "", {
@@ -169,17 +189,17 @@ f, F -> FALSE">
     function viewChange(e) {
       if (document.getElementById("splitView").checked) {
         document.getElementById("editor").style.cssText =
-          "top: 50px; right: 50%; bottom: 0%; left: 0%; font-size: 18px";
+          "top: 0px; right: 50%; bottom: 0%; left: 0%; font-size: 18px";
 
         document.getElementById("editorOut").style.cssText =
-          "top: 50px; right: 0%; bottom: 0%; left: 50%; font-size: 18px;   background-color: #cfcfcf;";
+          "top: 0px; right: 0%; bottom: 0%; left: 50%; font-size: 18px;   background-color: #cfcfcf;";
 
         editor.resize();
         editorOut.resize();
 
       } else {
         document.getElementById("editor").style.cssText =
-          "top: 50px; right: 0; bottom: 50%; left: 0; font-size: 18px; ";
+          "top: 0px; right: 0; bottom: 50%; left: 0; font-size: 18px; ";
 
         document.getElementById("editorOut").style.cssText =
           "top: 50%; right: 0; bottom: 0; left: 0; font-size: 18px;   background-color: #cfcfcf;";
@@ -199,57 +219,97 @@ f, F -> FALSE">
       editorOutText = editorOut.getValue();
       editorText = editor.getValue();
 
-      if(editorOutText !== editorText){
+      if (editorOutText !== editorText) {
         editor.setValue(editorOutText, 1);
         editor.focus();
       }
 
-      ace.edit('editor').moveCursorTo(currentCursorPosition.row,currentCursorPosition.column);
+      ace.edit('editor').moveCursorTo(currentCursorPosition.row, currentCursorPosition.column);
 
     }
 
-    function RenderWhitespace(e){
+    function RenderWhitespace(e) {
       if (document.getElementById("renderWhitespace").checked) {
         editorOut.setOption("showInvisibles", true)
         editor.setOption("showInvisibles", true)
-      } else{
+      } else {
         editorOut.setOption("showInvisibles", false)
         editor.setOption("showInvisibles", false)
       }
+      editor.focus();
     }
 
     editorOut.onFocus(editor.focus);
 
 
-//    editorOut.on("changeSelection", ()=>{SyncSelection('editor')});
-    editor.on("changeSelection", ()=>{SyncSelection('editorOut')});
-
+    editorOut.on("changeSelection", ()=>{SyncSelection('editor')});
+    editor.on("changeSelection", () => {SyncSelection('editorOut')});
 
     function SyncSelection(target) {
       if (target === 'editor') {
-        editor.selection.setRange(new ace.Range(editorOut.selection.getRange().start.row, 0, editorOut.selection.getRange().end.row + 1));
-      } else if(target === 'editorOut') {
-        editorOut.selection.setRange(new ace.Range(editor.selection.getRange().start.row, 0, editor.selection.getRange().end.row + 1));
+          if (editorOut.curOp && editorOut.curOp.command.name){
+             //console.log("user change");
+              editor.selection.setRange(new ace.Range(editorOut.selection.getRange().start.row, 0, editorOut.selection.getRange().end.row + 1, 0));
+          }
+          //else {console.log("other change")}
+
+      } else if (target === 'editorOut') {
+        if (editor.curOp && editor.curOp.command.name){
+             //console.log("user change");
+              editorOut.selection.setRange(new ace.Range(editor.selection.getRange().start.row, 0, editor.selection.getRange().end.row + 1, 0));
+          }
+          //else {console.log("other change")}
       }
     }
 
+    
+    
 
+    /*
     editor.getSession().on('changeScrollTop', function (scroll) {
       editorOut.getSession().setScrollTop(parseInt(scroll) || 0)
-
+      console.log(scroll);
     });
 
     editor.getSession().on('changeScrollLeft', function (scroll) {
       editorOut.getSession().setScrollLeft(parseInt(scroll) || 0)
     });
+ 
+*/    
+   
 
+    editor.getSession().on('changeScrollTop', (scroll)=>{SyncScrollY('editorOut',scroll)});
+    editor.getSession().on('changeScrollLeft', (scroll)=>{SyncScrollX('editorOut',scroll)});
+    editorOut.getSession().on('changeScrollTop', (scroll)=>{SyncScrollY('editor',scroll)});
+  //  editorOut.getSession().on('changeScrollLeft', (scroll)=>{SyncScrollX('editor',scroll)});
 
+    function SyncScrollY(target, scroll) {
+      
+      console.log(editor);
 
-    function syncScroll() {
+      if(target === 'editor'){
+       editor.getSession().setScrollTop(parseInt(scroll) || 0)
+      }
 
-
+      if(target === 'editorOut'){
+        editorOut.getSession().setScrollTop(parseInt(scroll) || 0)
+      }
     }
-  </script>
+
+    function SyncScrollX(target, scroll) {
+      
+      console.log(editor);
+
+      if(target === 'editor'){
+       editor.getSession().setScrollLeft(parseInt(scroll) || 0)
+      }
+
+      if(target === 'editorOut'){
+        editorOut.getSession().setScrollLeft(parseInt(scroll) || 0)
+      }
+    }
+
+</script>
 </body>
 
 

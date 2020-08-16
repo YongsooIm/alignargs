@@ -1,93 +1,176 @@
-textarea {
-    
-    width : 95%;
-    max-height: 40%;
-    overflow-x: scroll;
-    overflow-y: scroll;
-    display: block;
-    resize: none;
-    white-space: pre;
-    margin-left: auto;
-    margin-right: auto;
+
+#navbar {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  left: 0px;
+  bottom: 46px;
+  overflow: hidden;
+  overflow-x: scroll;
+
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+
+  display: inline-block; 
+  float: none; 
+  white-space: nowrap; 
 
 }
 
-  
-  #editor { 
-    position: absolute;
-    top: 50px;
-    right: 0;
-    bottom: 0%;
-    left: 0;
+#editorGroup{
+  position:absolute;
+  padding:0;
+  width:100%;
+  height:100% - 46;
+  top:46px;
+  left:0px;
+  right:0px;
+  bottom: 0px;
 }
 
-#navbar{
-    position: absolute  ;
-    top: 0px;
-    width: 100%;
-    left: 0px;
-    bottom: 50px;
+#editor {
+  position: absolute;
+  top: 0px;
+  right: 0;
+  bottom: 50%;
+  left: 0;
+  font-size: 18px;
+}
+
+#editorOut {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  bottom: 0px;
+  left: 0;
+  font-size: 18px;
+  background-color: #cfcfcf;
+}
+
+#editorOut .ace_selection {
+  background: #aab2bc
 }
 
 ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-  }
-  
-  li {
-    float: left;
-    border-right:1px solid #bbb;
-  }
-  
-  li:last-child {
-    border-right: none;
-  }
-  
-  li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-  
-  li a:hover:not(.active) {
-    background-color: #111;
-  }
-  
-  .active {
-    background-color: #4CAF50;
-  }
-
-  label:hover:not(.active) {
-    background-color: #111;
-  }
-  
-  .active {
-    background-color: #4CAF50;
-  }
-
-  li input {
-
-    width : 20px;
-  }
-  
-  label{
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-
-  [type="checkbox"]
-{
-    vertical-align:middle;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
 }
 
-.editor * {
-    font-family:Courier,Monaco,Menlo,"Ubuntu Mono",Consolas,source-code-pro,monospace;
+li {
+  float: left;
+  border-right: 1px solid #bbb;
+}
+
+li:last-child {
+  border-right: none;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 12px 12px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #4CAF50;
+}
+
+label:hover:not(.active) {
+  background-color: #111;
+}
+
+
+label {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 12px 12px;
+  text-decoration: none;
+}
+
+[type="checkbox"] {
+  vertical-align: middle;
+}
+
+.editor *,
+.editorOut * {
+  font-family: Courier, Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace;
+}
+
+#writeBack {
+  cursor: pointer;
+}
+
+
+.container {
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+  cursor: pointer;
+  font-size: 2rem;
+  margin-left: 10px;
+  font-family: 'Righteous', cursive;
+  color: #fff;
+  font-weight: 600;
+}
+
+.toggle-button {
+  position: relative;
+  top: 5px;
+  width: 32px;
+  height: 16px;
+  margin: 0;
+
+  vertical-align: top;
+
+  background: #ffffff;
+  border: 1px solid #bbc1e1;
+  border-radius: 15px;
+  outline: none;
+  cursor: pointer;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  transition: all 0.3s cubic-bezier(0.2, 0.85, 0.32, 1.2);
+}
+
+.toggle-button::after {
+  content: "";
+
+  position: absolute;
+
+  width: 14px;
+  height: 14px;
+  background-color: #0075ff;
+  border-radius: 50%;
+
+  transform: translateX(0);
+
+  transition: all 0.3s cubic-bezier(0.2, 0.85, 0.32, 1.2);
+}
+
+.toggle-button:checked::after {
+  transform: translateX(calc(100% + 3px));
+  background-color: #fff;
+}
+
+.toggle-button:checked {
+  background-color: #0075ff;
 }
