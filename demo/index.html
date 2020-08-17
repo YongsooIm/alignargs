@@ -85,7 +85,7 @@ func123(T,100000,0xefU,f,100000,SOMEVA);
 func12(F,1000000,0XABU,t,10000,SOMEVAL);
 func1(T,10000000,0xCDU,f,1000,SOMEVALU);
 func(F,100000000,0XEFU,t,100,SOMEVALUE);
-</div>
+f(t, 1,</div>
 
     <div id="editorOut"></div>
   </div>
@@ -115,13 +115,25 @@ func(F,100000000,0XEFU,t,100,SOMEVALUE);
     editor.setAutoScrollEditorIntoView(true);
     editorOut.setAutoScrollEditorIntoView(true);
 
+editor.setOptions({
+  vScrollBarAlwaysVisible: true,
+      hScrollBarAlwaysVisible: true,
+
+});
+
+editorOut.setOptions({
+  vScrollBarAlwaysVisible: true,
+      hScrollBarAlwaysVisible: true,
+
+});
+
     editor.session.setOptions({
       tabSize: 4,
-      useSoftTabs: false
+      useSoftTabs: false,
     });
     editorOut.session.setOptions({
       tabSize: 4,
-      useSoftTabs: false
+      useSoftTabs: false,
     });
 
 
@@ -285,7 +297,7 @@ func(F,100000000,0XEFU,t,100,SOMEVALUE);
 
     function SyncScrollY(target, scroll) {
       
-      console.log(editor);
+//      console.log(editor);
 
       if(target === 'editor'){
        editor.getSession().setScrollTop(parseInt(scroll) || 0)
