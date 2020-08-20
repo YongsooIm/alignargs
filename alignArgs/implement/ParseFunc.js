@@ -101,19 +101,6 @@ function ParseFunc(line) {
                 }
                 break;
             case STATE.COMMENT_START:
-                if (curr === ';') {
-                    if (i === line.length - 1) {
-                        state = STATE.DONE;
-                    }
-                    else {
-                        state = STATE.COMMENT;
-                    }
-                }
-                else if (curr.match(/\S/)) {
-                    state = STATE.FAIL;
-                }
-                break;
-            case STATE.COMMENT:
                 comment = line.substr(i, line.length);
                 state = STATE.DONE;
                 break;
